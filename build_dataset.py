@@ -8,7 +8,7 @@ from typing import Optional
 
 from datasets import Dataset, DatasetDict
 
-from commit0.collect.utils import (
+from utils import (
     generate_base_commit,
     Repo,
 )
@@ -20,12 +20,13 @@ logger = logging.getLogger(__name__)
 
 
 def create_instance(
-    repo: Repo, base_branch_name: str, removal: str, raw_info: dict
+    repo: Repo, original_owner: str, base_branch_name: str, removal: str, raw_info: dict
 ) -> dict:
     """Create a single task instance from a commit, where task instance is:
 
     {
         repo (Repo): owner/repo this task instance is from,
+        original_owner (str): the original owner of the repo
         base_commit (str): SHA of the base commit for starter repo,
         reference_commit(str): SHA of the commit for setting up environment,
         patch (str): reference solution as .patch (apply to base commit),
@@ -50,6 +51,7 @@ def create_instance(
         setup["pip_packages"] = raw_info["pip_packages"]
     return {
         "repo": f"{repo.owner}/{repo.name}",
+        "original_repo": f"{original_owner}/{repo.name}",
         "base_commit": base_commit,
         "reference_commit": repo.commit,
         "setup": setup,
@@ -97,7 +99,7 @@ def main(
         owner, repo = info["name"].split("/")
         repo = Repo(owner, repo, organization=organization, head=head, token=token)
         # Create task instance
-        instance = create_instance(repo, base_branch_name, removal, info)
+        instance = create_instance(repo, owner, base_branch_name, removal, info)
         examples.append(instance)
     ds = Dataset.from_list(examples)
     ds = DatasetDict({"test": ds})

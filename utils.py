@@ -12,7 +12,7 @@ import git
 from ghapi.core import GhApi
 from fastcore.net import HTTP404NotFoundError, HTTP403ForbiddenError
 
-from commit0.collect.scrape_pdf import scrape_spec
+from scrape_pdf import scrape_spec
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
