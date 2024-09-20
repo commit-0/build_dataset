@@ -110,44 +110,54 @@ class Repo:
 
 
 class RemoveMethod(ast.NodeTransformer):
-    """Class to replace method code with NotImplementedError"""
+    """Class to replace method code or remove function definitions based on method type"""
 
     def __init__(self, removal_method):
         self.removal_method = removal_method
 
     def visit_FunctionDef(self, node):
         transform = node
+        # Check if the first statement is a docstring
         if (
             node.body
             and isinstance(node.body[0], ast.Expr)
             and isinstance(node.body[0].value, ast.Constant)
+            and isinstance(node.body[0].value.value, str)
         ):
             docstring_node = node.body[0]
         else:
             docstring_node = None
 
-        not_implemented_error_node = ast.Raise(
-            exc=ast.Call(
-                func=ast.Name(id="NotImplementedError", ctx=ast.Load()),
-                args=[ast.Constant(value="IMPLEMENT ME HERE")],
-                keywords=[],
-            ),
-            cause=None,
-        )
+        # Create a pass node
+        pass_node = ast.Pass()
 
         if self.removal_method == "all":
+            # Replace body with pass, keeping docstring if present
             if docstring_node:
-                node.body = [docstring_node, not_implemented_error_node]
+                node.body = [docstring_node, pass_node]
             else:
-                node.body = [not_implemented_error_node]
+                node.body = [pass_node]
         elif self.removal_method == "docstring":
+            # Only replace body with pass if there is a docstring, otherwise leave function unchanged
             if docstring_node:
-                node.body = [docstring_node, not_implemented_error_node]
+                node.body = [docstring_node, pass_node]
+        elif self.removal_method == "combined":
+            # For combined: keep functions with docstrings, replace their body with pass,
+            # remove functions without docstrings
+            if docstring_node:
+                node.body = [docstring_node, pass_node]
+            else:
+                # Return None to remove the function entirely
+                return None
         else:
             raise NotImplementedError(
                 f"Removal method {self.removal_method} is not implemented"
             )
         return ast.copy_location(transform, node)
+
+    def visit_AsyncFunctionDef(self, node):
+        # Handle async functions the same way as regular functions
+        return self.visit_FunctionDef(node)
 
 
 def clone_repo(clone_url, clone_dir, commit) -> None:
