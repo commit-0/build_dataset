@@ -12,6 +12,7 @@
   specification: "https://minitorch.github.io/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "minitorch/"
 
 1:
   name: "wenting-zhao/simpy"
@@ -26,6 +27,7 @@
   specification: "https://simpy.readthedocs.io/en/4.1.1/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/simpy/"
 
 2:
   name: "scott-griffiths/bitstring"
@@ -38,6 +40,7 @@
   specification: "https://bitstring.readthedocs.io/en/stable/"
   test_cmd: "pytest --benchmark-disable"
   test_dir: "tests/"
+  src_dir: "bitstring/"
 
 3:
   name: "msiemens/tinydb"
@@ -58,6 +61,7 @@
   specification: "https://tinydb.readthedocs.io/_/downloads/en/v4.8.0/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "tinydb/"
 
 4:
   name: "marshmallow-code/marshmallow"
@@ -68,6 +72,7 @@
   specification: "https://marshmallow.readthedocs.io/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/marshmallow/"
 
 5:
   name: "prompt-toolkit/python-prompt-toolkit"
@@ -78,6 +83,7 @@
   specification: "https://python-prompt-toolkit.readthedocs.io/_/downloads/en/3.0.43/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/prompt_toolkit/"
 
 6:
   name: "scrapy/parsel"
@@ -92,7 +98,8 @@
     - "tests/requirements.txt"
   specification: "https://parsel.readthedocs.io/_/downloads/en/latest/pdf/"
   test_cmd: "pytest --assert=plain --ignore=setup.py"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "parsel"
 
 7:
   name: "jpadilla/pyjwt"
@@ -103,6 +110,7 @@
   specification: "https://pyjwt.readthedocs.io/_/downloads/en/2.8.0/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "jwt"
 
 8:
   name: "networkx/networkx"
@@ -112,7 +120,8 @@
   install: "pip install -e .[default,developer,test]"
   specification: "https://networkx.org/documentation/networkx-3.3/"
   test_cmd: "pytest --durations=10 --pyargs networkx"
-  test_dir: ""
+  test_dir: "networkx/"
+  src_dir: "networkx/"
 
 9:
   name: "graphql-python/graphene"
@@ -123,6 +132,7 @@
   specification: "https://docs.graphene-python.org/en/stable/"
   test_cmd: "pytest"
   test_dir: "graphene/"
+  src_dir: "graphene/"
 
 10:
   name: "tlsfuzzer/tlslite-ng"
@@ -135,6 +145,7 @@
   specification: "https://tlslite-ng.readthedocs.io/en/latest/"
   test_cmd: "pytest"
   test_dir: "unit_tests/"
+  src_dir: "tlslite/"
 
 11:
   name: "jquast/wcwidth"
@@ -145,6 +156,7 @@
   specification: "https://wcwidth.readthedocs.io/en/stable/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "wcwidth/"
 
 12:
   name: "chardet/chardet"
@@ -160,7 +172,8 @@
     - "sphinx_rtd_theme>=1.0.0,<2.0.0"
   specification: "https://chardet.readthedocs.io/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "chardet/"
 
 13:
   name: "rthalley/dnspython"
@@ -170,7 +183,8 @@
   install: "pip install -e .[dev]"
   specification: "https://dnspython.readthedocs.io/en/stable/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "dns/"
 
 14:
   name: "mjs/imapclient"
@@ -183,6 +197,7 @@
   specification: "https://imapclient.readthedocs.io/en/3.0.1/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "imapclient/"
 
 15:
   name: "pypa/virtualenv"
@@ -193,6 +208,7 @@
   specification: "https://virtualenv.pypa.io/en/20.26.3/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/virtualenv/"
 
 16:
   name: "pexpect/pexpect"
@@ -205,6 +221,7 @@
   specification: "https://pexpect.readthedocs.io/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "pexpect/"
 
 17:
   name: "ethereum/web3.py"
@@ -218,7 +235,8 @@
   install: "pip install -e .[dev]"
   specification: "https://web3py.readthedocs.io/_/downloads/en/v6.20.2/pdf/"
   test_cmd: "pytest"
-  test_dir: "tests/core tests/ens tests/integration"
+  test_dir: "tests/"
+  src_dir: "web3/"
 
 18:
   name: "python-babel/babel"
@@ -231,6 +249,7 @@
   specification: "https://babel.pocoo.org/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "babel/"
 
 19:
   name: "geopandas/geopandas"
@@ -240,7 +259,8 @@
   install: "pip install -e .[all,dev]"
   specification: "https://geopandas.org/en/stable/"
   test_cmd: "pytest -v -r a -n auto"
-  test_dir: "geopandas/"
+  test_dir: "geopandas/tests/"
+  src_dir: "geopandas"
 
 20:
   name: "jelmer/dulwich"
@@ -255,6 +275,7 @@
   specification: "https://dulwich.readthedocs.io/_/downloads/en/latest/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "dulwich/"
 
 21:
   name: "pallets/flask"
@@ -268,6 +289,7 @@
   specification: "https://flask.palletsprojects.com/en/3.0.x/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/flask/"
 
 22:
   name: "alecthomas/voluptuous"
@@ -278,6 +300,7 @@
   specification: "https://alecthomas.github.io/voluptuous/docs/_build/html/"
   test_cmd: "pytest"
   test_dir: "voluptuous/tests"
+  src_dir: "voluptuous/"
 
 23:
   name: "pallets/jinja"
@@ -291,6 +314,7 @@
   specification: "https://jinja.palletsprojects.com/en/3.1.x/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/jinja2/"
 
 24:
   name: "mwaskom/seaborn"
@@ -301,6 +325,7 @@
   specification: "https://seaborn.pydata.org/"
   test_cmd: "pytest -n auto"
   test_dir: "tests/"
+  src_dir: "seaborn/"
 
 25:
   name: "psf/requests"
@@ -313,6 +338,7 @@
   specification: "https://requests.readthedocs.io/_/downloads/en/latest/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/requests/"
 
 26:
   name: "scrapy/scrapy"
@@ -335,6 +361,7 @@
   specification: "https://docs.scrapy.org/_/downloads/en/2.11/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "scrapy"
 
 27:
   name: "fastapi/fastapi"
@@ -347,6 +374,7 @@
   specification: "https://fastapi.tiangolo.com/reference/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "fastapi"
 
 28:
   name: "pallets/click"
@@ -359,7 +387,8 @@
     - "requirements/tests.txt"
   specification: "https://click.palletsprojects.com/en/8.1.x/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "src/click/"
 
 29:
   name: "sybrenstuvel/python-rsa"
@@ -377,7 +406,8 @@
     - "flake8>=3.8.4,<4.0.0"
   specification: "https://stuvel.eu/python-rsa-doc/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "rsa/"
 
 30:
   name: "statsmodels/statsmodels"
@@ -388,6 +418,7 @@
   specification: "https://www.statsmodels.org/stable/"
   test_cmd: "pytest -n auto -r s --dist loadscope --skip-examples"
   test_dir: "statsmodels/"
+  src_dir: "statsmodels/"
 
 31:
   name: "more-itertools/more-itertools"
@@ -400,6 +431,7 @@
   specification: "https://more-itertools.readthedocs.io/en/v10.4.0/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "more_itertools/"
 
 32:
   name: "Zulko/moviepy"
@@ -427,7 +459,8 @@
     - "pytest>=3.0.0,<7.0.0"
   specification: "https://zulko.github.io/moviepy/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "moviepy/"
 
 33:
   name: "laurent-laporte-pro/deprecated"
@@ -437,7 +470,8 @@
   install: "pip install -e .[dev]"
   specification: "https://deprecated.readthedocs.io/en/latest/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "deprecated/"
 
 34:
   name: "pydantic/pydantic"
@@ -470,7 +504,8 @@
     - "email-validator>=2.0.0"
   specification: "https://docs.pydantic.dev/2.8/"
   test_cmd: "pytest --ignore=tests/mypy/ --ignore=tests/test_docs.py --memray"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "pydantic/"
 
 35:
   name: "Delgan/loguru"
@@ -481,6 +516,7 @@
   specification: "https://loguru.readthedocs.io/_/downloads/en/0.7.2/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "loguru/"
 
 36:
   name: "py-pdf/pypdf"
@@ -500,6 +536,7 @@
   specification: "https://pypdf.readthedocs.io/_/downloads/en/4.3.1/pdf/"
   test_cmd: "pytest -n auto"
   test_dir: "tests/"
+  src_dir: "pypdf/"
 
 37:
   name: "python-attrs/attrs"
@@ -509,7 +546,8 @@
   install: "pip install -e .[dev]"
   specification: "https://www.attrs.org/en/24.2.0/"
   test_cmd: "pytest -n auto"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "src/"
 
 38:
   name: "lk-geimfari/mimesis"
@@ -542,6 +580,7 @@
   specification: "https://mimesis.name/en/v17.0.0/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "mimesis"
 
 39:
   name: "cookiecutter/cookiecutter"
@@ -554,6 +593,7 @@
   specification: "https://cookiecutter.readthedocs.io/_/downloads/en/2.6.0/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "cookiecutter/"
 
 40:
   name: "tornadoweb/tornado"
@@ -568,6 +608,7 @@
   specification: "https://www.tornadoweb.org/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
   test_dir: "tornado/test/"
+  src_dir: "tornado/"
 
 41:
   name: "scikit-learn-contrib/imbalanced-learn"
@@ -579,7 +620,8 @@
     - "numpy==1.26.4"
   specification: "https://imbalanced-learn.org/stable/"
   test_cmd: "pytest"
-  test_dir: "imblearn/"
+  test_dir: "imblearn/tests/"
+  src_dir: "imblearn/"
 
 42:
   name: "wolph/python-progressbar"
@@ -590,6 +632,7 @@
   specification: "https://progressbar-2.readthedocs.io/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "progressbar/"
 
 43:
   name: "Baekalfen/PyBoy"
@@ -607,6 +650,7 @@
   specification: "https://docs.pyboy.dk/"
   test_cmd: "pytest -n auto -v"
   test_dir: "tests/"
+  src_dir: "pyboy/"
 
 44:
   name: "pytest-dev/pytest"
@@ -616,7 +660,8 @@
   install: "pip install -e .[dev]"
   specification: "https://docs.pytest.org/_/downloads/en/8.3.x/pdf/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "testing/"
+  src_dir: "src/"
 
 45:
   name: "pylint-dev/pylint"
@@ -629,6 +674,7 @@
   specification: "https://pylint.readthedocs.io/en/v3.2.6/"
   test_cmd: "pytest --benchmark-disable"
   test_dir: "tests/"
+  src_dir: "pylint/"
 
 46:
   name: "sphinx-doc/sphinx"
@@ -641,7 +687,8 @@
   install: "pip install -e .[test]"
   specification: "https://www.sphinx-doc.org/en/master/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "tests/"
+  src_dir: "sphinx/"
 
 47:
   name: "joblib/joblib"
@@ -665,7 +712,8 @@
     - "scikit-learn"
   specification: "https://joblib.readthedocs.io/en/stable/"
   test_cmd: "pytest"
-  test_dir: "joblib/"
+  test_dir: "joblib/test/"
+  src_dir: "joblib/"
 
 48:
   name: "pydata/xarray"
@@ -703,6 +751,7 @@
   specification: "https://docs.xarray.dev/en/v2024.07.0/"
   test_cmd: "pytest -n auto"
   test_dir: "xarray/tests/"
+  src_dir: "xarray/"
 
 49:
   name: "tkem/cachetools"
@@ -713,6 +762,7 @@
   specification: "https://cachetools.readthedocs.io/en/v5.5.0/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "src/cachetools/"
 
 50:
   name: "paramiko/paramiko"
@@ -740,6 +790,7 @@
   specification: "https://www.paramiko.org/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "paramiko/"
 
 51:
   name: "fabric/fabric"
@@ -756,6 +807,7 @@
   specification: "https://www.fabfile.org/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "fabric/"
 
 52:
   name: "fsspec/filesystem_spec"
@@ -768,6 +820,7 @@
   specification: "https://filesystem-spec.readthedocs.io/en/stable/"
   test_cmd: "pytest"
   test_dir: "fsspec/tests/"
+  src_dir: "fsspec/"
 
 53:
   name: "davidhalter/jedi"
@@ -779,7 +832,8 @@
   install: "pip install -e .[testing]"
   specification: "https://jedi.readthedocs.io/en/stable/"
   test_cmd: "pytest"
-  test_dir: ""
+  test_dir: "test/"
+  src_dir: "jedi/"
 
 54:
   name: "andialbrecht/sqlparse"
@@ -793,6 +847,7 @@
   specification: "https://sqlparse.readthedocs.io/en/stable/"
   test_cmd: "pytest"
   test_dir: "tests/"
+  src_dir: "sqlparse/"
 
 55:
   name: "wolph/portalocker"
@@ -803,3 +858,4 @@
   specification: "https://portalocker.readthedocs.io/en/stable/"
   test_cmd: "pytest"
   test_dir: "portalocker_tests/"
+  src_dir: "portalocker/"
