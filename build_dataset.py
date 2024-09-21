@@ -35,6 +35,8 @@ def create_instance(
     # extract_test_names needs to be called on the environment set up commit
     base_commit = generate_base_commit(
         repo,
+        raw_info["src_dir"],
+        raw_info["test_dir"],
         spec_url=raw_info["specification"],
         base_branch_name=base_branch_name,
         removal=removal,

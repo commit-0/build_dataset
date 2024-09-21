@@ -117,6 +117,11 @@ class RemoveMethod(ast.NodeTransformer):
 
     def visit_FunctionDef(self, node):
         transform = node
+
+        # Don't modify Python's special functions (like __init__, __str__, etc.)
+        if node.name.startswith('__') and node.name.endswith('__'):
+            return node  # Leave special methods unchanged
+
         # Check if the first statement is a docstring
         if (
             node.body
@@ -159,6 +164,17 @@ class RemoveMethod(ast.NodeTransformer):
         # Handle async functions the same way as regular functions
         return self.visit_FunctionDef(node)
 
+    def visit_ClassDef(self, node):
+        # Visit all the body of the class to apply transformations
+        self.generic_visit(node)
+
+        # Check if the class is left with only a `Pass` or is entirely empty
+        if not node.body or all(isinstance(child, ast.Pass) for child in node.body):
+            # If class has no methods or only pass, return None to remove it
+            return None
+
+        return node
+
 
 def clone_repo(clone_url, clone_dir, commit) -> None:
     """Clone repo into a temporary directory
@@ -192,8 +208,44 @@ def remove_local_repo(clone_dir) -> None:
             os.system(f"rm -rf {clone_dir}")
         logger.info(f"Cleaned up the cloned repository at {clone_dir}")
 
+def collect_test_files(directory):
+    # List to store all the filenames
+    test_files = []
+    subdirs = []
 
-def _find_files_to_edit(base_dir: str) -> list[str]:
+    # Walk through the directory
+    for root, dirs, files in os.walk(directory):
+        if root.endswith("/"):
+            root = root[:-1]
+        # Check if 'test' is part of the folder name
+        if 'test' in os.path.basename(root).lower() or os.path.basename(root) in subdirs:
+            for file in files:
+                # Process only Python files
+                if file.endswith('.py'):
+                    file_path = os.path.join(root, file)
+                    test_files.append(file_path)
+            for d in dirs:
+                subdirs.append(d)
+
+    return test_files
+
+
+def collect_python_files(directory):
+    # List to store all the .py filenames
+    python_files = []
+
+    # Walk through the directory recursively
+    for root, _, files in os.walk(directory):
+        for file in files:
+            # Check if the file ends with '.py'
+            if file.endswith('.py'):
+                file_path = os.path.join(root, file)
+                python_files.append(file_path)
+
+    return python_files
+
+
+def _find_files_to_edit(base_dir: str, src_dir: str, test_dir: str) -> list[str]:
     """Identify files to remove content by heuristics.
     We assume source code is under [lib]/[lib] or [lib]/src.
     We exclude test code. This function would not work
@@ -208,43 +260,14 @@ def _find_files_to_edit(base_dir: str) -> list[str]:
         files (list[str]): a list of files to be edited.
 
     """
+    files = collect_python_files(os.path.join(base_dir, src_dir))
+    test_files = collect_test_files(os.path.join(base_dir, test_dir))
+    files = list(set(files) - set(test_files))
 
-    def find_helper(n):
-        path_src = os.path.join(base_dir, n, "**", "*.py")
-        files = glob(path_src, recursive=True)
-        path_src = os.path.join(base_dir, "src", n, "**", "*.py")
-        files += glob(path_src, recursive=True)
-        path_src = os.path.join(base_dir, "src", "**", "*.py")
-        files += glob(path_src, recursive=True)
-        path_test = os.path.join(base_dir, n, "**", "test*", "**", "*.py")
-        test_files = glob(path_test, recursive=True)
-        files = list(set(files) - set(test_files))
-        return files
-
-    name = os.path.basename(base_dir)
-    files = find_helper(name)
-    if name != name.lower():
-        files += find_helper(name.lower())
-    elif name.startswith("pyjwt"):
-        files += find_helper("jwt")
-    elif name == "tlslite-ng":
-        files += find_helper("tlslite")
-    elif name == "dnspython":
-        files += find_helper("dns")
-    elif name == "web3.py":
-        files += find_helper("web3")
-    elif name == "python-rsa":
-        files += find_helper("rsa")
-    elif name == "more-itertools":
-        files += find_helper("more_itertools")
-    elif name == "imbalanced-learn":
-        files += find_helper("imblearn")
-    elif name == "python-progressbar":
-        files += find_helper("progressbar")
-    elif name == "filesystem_spec":
-        files += find_helper("fsspec")
     # don't edit __init__ files
     files = [f for f in files if "__init__" not in f]
+    # don't edit __main__ files
+    files = [f for f in files if "__main__" not in f]
     # don't edit confest.py files
     files = [f for f in files if "conftest.py" not in f]
     return files
@@ -252,6 +275,8 @@ def _find_files_to_edit(base_dir: str) -> list[str]:
 
 def generate_base_commit(
     repo: Repo,
+    src_dir: str,
+    test_dir: str,
     spec_url: str,
     base_branch_name: str = "commit0",
     removal: str = "all",
@@ -288,7 +313,7 @@ def generate_base_commit(
     else:
         logger.info("Creating commit 0")
         repo.local_repo.git.checkout("-b", branch_name)
-        files = _find_files_to_edit(repo.clone_dir)
+        files = _find_files_to_edit(repo.clone_dir, src_dir, test_dir)
         for f in files:
             tree = astor.parse_file(f)
             tree = RemoveMethod(removal).visit(tree)
