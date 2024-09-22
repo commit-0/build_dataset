@@ -170,8 +170,7 @@ class RemoveMethod(ast.NodeTransformer):
 
         # Check if the class is left with only a `Pass` or is entirely empty
         if not node.body or all(isinstance(child, ast.Pass) for child in node.body):
-            # If class has no methods or only pass, return None to remove it
-            return None
+            node.body = [ast.Pass()]  # Replace the body with a single `Pass` statement
 
         return node
 

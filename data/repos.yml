@@ -205,6 +205,8 @@
   tag: "20.26.3"
   python: "3.12"
   pre_install:
+    - "curl https://sh.rustup.rs -sSf | bash -s -- -y"
+    - "echo 'source $HOME/.cargo/env' >> $HOME/.bashrc"
     - "apt-get update -y && apt-get install snapd fish csh -y"
     - "cargo binstall -y nu"
   install: "pip install -e .[test]"
@@ -808,6 +810,8 @@
   install: "pip install -e .; inv safety-test-v1-to-v2-shim"
   packages:
     - "dev-requirements.txt"
+  pip_packages:
+    - "pip"
   specification: "https://www.fabfile.org/"
   test_cmd: "pytest"
   test_dir: "tests/"
