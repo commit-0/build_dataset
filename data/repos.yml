@@ -203,12 +203,13 @@
   name: "pypa/virtualenv"
   commit: null
   tag: "20.26.3"
-  python: "3.12"
+  python: "3.10"
   pre_install:
+    - "apt-get update -y && apt-get install pkg-config libssl-dev -y"
     - "curl https://sh.rustup.rs -sSf | bash -s -- -y"
     - "echo 'source $HOME/.cargo/env' >> $HOME/.bashrc"
     - "apt-get update -y && apt-get install snapd fish csh -y"
-    - "cargo binstall -y nu"
+    - "cargo install nu"
   install: "pip install -e .[test]"
   specification: "https://virtualenv.pypa.io/en/20.26.3/"
   test_cmd: "pytest"
@@ -807,7 +808,7 @@
     - "apt install -y openssh-server wamerican-large"
     - "/etc/init.d/ssh start"
     - "mkdir -p ~/.ssh && touch ~/.ssh/config"
-  install: "pip install -e .; inv safety-test-v1-to-v2-shim"
+  install: "pip install -e ."
   packages:
     - "dev-requirements.txt"
   pip_packages:
