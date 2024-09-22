@@ -172,7 +172,7 @@
     - "sphinx_rtd_theme>=1.0.0,<2.0.0"
   specification: "https://chardet.readthedocs.io/_/downloads/en/stable/pdf/"
   test_cmd: "pytest"
-  test_dir: "tests/"
+  test_dir: "."
   src_dir: "chardet/"
 
 13:
@@ -204,6 +204,9 @@
   commit: null
   tag: "20.26.3"
   python: "3.12"
+  pre_install:
+    - "apt-get update -y && apt-get install snapd fish csh -y"
+    - "cargo binstall -y nu"
   install: "pip install -e .[test]"
   specification: "https://virtualenv.pypa.io/en/20.26.3/"
   test_cmd: "pytest"
@@ -267,6 +270,9 @@
   commit: "21e1ba8a61149fa966640e81019c33bce93b37f2"
   tag: null
   python: "3.10"
+  pre_install:
+    - "apt-get update"
+    - "apt-get install -y libgpgme-dev libgpg-error-dev"
   install: "pip install -e .[dev]"
   pip_packages:
     - "gevent"
@@ -345,9 +351,6 @@
   commit: null
   tag: "2.11.2"
   python: "3.12"
-  pre_install:
-    - "apt-get update"
-    - "apt-get install libxml2-dev libxslt-dev"
   install: "pip install -e ."
   pip_packages:
     - "attrs"
@@ -801,7 +804,8 @@
     - "apt update"
     - "apt install -y openssh-server wamerican-large"
     - "/etc/init.d/ssh start"
-  install: "pip install -e ."
+    - "mkdir -p ~/.ssh && touch ~/.ssh/config"
+  install: "pip install -e .; inv safety-test-v1-to-v2-shim"
   packages:
     - "dev-requirements.txt"
   specification: "https://www.fabfile.org/"

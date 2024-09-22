@@ -58,6 +58,7 @@ def create_instance(
         "reference_commit": repo.commit,
         "setup": setup,
         "test": {"test_cmd": raw_info["test_cmd"], "test_dir": raw_info["test_dir"]},
+        "src_dir": raw_info["src_dir"],
     }
 
 
