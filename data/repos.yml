@@ -641,35 +641,6 @@
   src_dir: "progressbar/"
 
 43:
-  name: "Baekalfen/PyBoy"
-  commit: null
-  tag: "v2.2.2"
-  python: "3.12"
-  pre_install:
-    - "apt update"
-    - "apt install libopengl0 freeglut3-dev"
-    - "apt-get install clang"
-  install: "pip install -e .[all]"
-  packages:
-    - "requirements.txt"
-    - "requirements_tests.txt"
-  specification: "https://docs.pyboy.dk/"
-  test_cmd: "pytest -n auto -v"
-  test_dir: "tests/"
-  src_dir: "pyboy/"
-
-44:
-  name: "pytest-dev/pytest"
-  commit: null
-  tag: "8.3.2"
-  python: "3.10"
-  install: "pip install -e .[dev]"
-  specification: "https://docs.pytest.org/_/downloads/en/8.3.x/pdf/"
-  test_cmd: "pytest"
-  test_dir: "testing/"
-  src_dir: "src/"
-
-45:
   name: "pylint-dev/pylint"
   commit: null
   tag: "v3.2.6"
@@ -682,7 +653,7 @@
   test_dir: "tests/"
   src_dir: "pylint/"
 
-46:
+44:
   name: "sphinx-doc/sphinx"
   commit: "1c131dfffe2d359eda93f7d4cc6d920fbe76efe4"
   tag: null
@@ -696,7 +667,7 @@
   test_dir: "tests/"
   src_dir: "sphinx/"
 
-47:
+45:
   name: "joblib/joblib"
   commit: null
   tag: "1.4.2"
@@ -721,7 +692,7 @@
   test_dir: "joblib/test/"
   src_dir: "joblib/"
 
-48:
+46:
   name: "pydata/xarray"
   commit: null
   tag: "v2024.07.0"
@@ -759,7 +730,7 @@
   test_dir: "xarray/tests/"
   src_dir: "xarray/"
 
-49:
+47:
   name: "tkem/cachetools"
   commit: null
   tag: "v5.5.0"
@@ -770,7 +741,7 @@
   test_dir: "tests/"
   src_dir: "src/cachetools/"
 
-50:
+48:
   name: "paramiko/paramiko"
   commit: null
   tag: "3.4.1"
@@ -798,7 +769,7 @@
   test_dir: "tests/"
   src_dir: "paramiko/"
 
-51:
+49:
   name: "fabric/fabric"
   commit: null
   tag: "3.2.2"
@@ -818,7 +789,7 @@
   test_dir: "tests/"
   src_dir: "fabric/"
 
-52:
+50:
   name: "fsspec/filesystem_spec"
   commit: null
   tag: "2024.6.1"
@@ -831,7 +802,7 @@
   test_dir: "fsspec/tests/"
   src_dir: "fsspec/"
 
-53:
+51:
   name: "davidhalter/jedi"
   commit: null
   tag: "v0.19.1"
@@ -844,7 +815,7 @@
   test_dir: "test/"
   src_dir: "jedi/"
 
-54:
+52:
   name: "andialbrecht/sqlparse"
   commit: null
   tag: "0.5.1"
@@ -858,7 +829,7 @@
   test_dir: "tests/"
   src_dir: "sqlparse/"
 
-55:
+53:
   name: "wolph/portalocker"
   commit: null
   tag: "v2.10.1"
