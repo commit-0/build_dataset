@@ -1,4 +1,5 @@
 import asyncio
+import bz2
 import os
 import sys
 
@@ -213,9 +214,9 @@ async def scrape_spec(base_url, output_dir, name) -> None:
     clean_pdf_directory(pdfs)
     # merge all pdfs together
     merge_pdfs(pdfs, os.path.join("pdfs", f"{name}.pdf"))
-    with open(f"{name}.pdf", 'rb') as f_in:
+    with open(os.path.join("pdfs", f"{name}.pdf"), 'rb') as f_in:
         # Open the output file in binary mode for writing (compressed)
-        with bz2.open(f"{name}.pdf.bz2", 'wb') as f_out:
+        with bz2.open(os.path.join("pdfs", f"{name}.pdf.bz2"), 'wb') as f_out:
             # Read the content of the input file and write it compressed
             f_out.writelines(f_in)
 

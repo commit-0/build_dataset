@@ -1,5 +1,4 @@
 import asyncio
-import bz2
 import logging
 import os
 import shutil
