@@ -1,4 +1,5 @@
 import asyncio
+import bz2
 import logging
 import os
 import shutil
@@ -7,7 +8,6 @@ from glob import glob
 from typing import Callable, Optional
 
 import ast
-import astor
 import git
 from ghapi.core import GhApi
 from fastcore.net import HTTP404NotFoundError, HTTP403ForbiddenError
@@ -314,9 +314,9 @@ def generate_base_commit(
         repo.local_repo.git.checkout("-b", branch_name)
         files = _find_files_to_edit(repo.clone_dir, src_dir, test_dir)
         for f in files:
-            tree = astor.parse_file(f)
+            tree = ast.parse(open(f, "r").read())
             tree = RemoveMethod(removal).visit(tree)
-            open(f, "w").write(astor.to_source(tree))
+            open(f, "w").write(ast.unparse(tree))
             try:
                 repo.local_repo.git.add(f)
             except git.exc.GitCommandError as e:
@@ -346,7 +346,7 @@ def generate_base_commit(
         logger.info(f"Lines added: {additions}")
         logger.info(f"Lines removed: {deletions}")
 
-        spec_path = os.path.join(spec_cache_dir, f"{repo.name}.pdf")
+        spec_path = os.path.join(spec_cache_dir, f"{repo.name}.pdf.bz2")
         if os.path.exists(spec_path):
             logger.info(f"Found spec PDF at {spec_path}")
         else:
@@ -359,12 +359,12 @@ def generate_base_commit(
         if file_size >= 100 * 1_048_576:
             raise ValueError(f"{spec_path} is too large to be pushed to github")
         try:
-            shutil.copy(spec_path, f"{repo.clone_dir}/spec.pdf")
+            shutil.copy(spec_path, f"{repo.clone_dir}/spec.pdf.bz2")
         except IOError as e:
             raise IOError(f"Unable to copy file. {e}")
         except Exception as e:
             raise Exception(f"Unexpected error: {e}")
-        repo.local_repo.git.add(f"{repo.clone_dir}/spec.pdf")
+        repo.local_repo.git.add(f"{repo.clone_dir}/spec.pdf.bz2")
 
         base_commit = repo.local_repo.index.commit("Commit 0")
         origin = repo.local_repo.remote(name="origin")
