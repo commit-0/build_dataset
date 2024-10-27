@@ -21,6 +21,7 @@ dependencies = [
     "wget",
     "ruff>=0.6.4",
     "pre-commit>=3.8.0",
+    "swebench>=2.1.0",
 ]
 
 [tool.pyright]
