@@ -52,6 +52,7 @@ def create_instance(
     if "pip_packages" in raw_info:
         setup["pip_packages"] = raw_info["pip_packages"]
     return {
+        "instance_id": f"{original_owner}__{repo.name}",
         "repo": f"{repo.owner}/{repo.name}",
         "original_repo": f"{original_owner}/{repo.name}",
         "base_commit": base_commit,
@@ -107,7 +108,7 @@ def main(
     ds = Dataset.from_list(examples)
     ds = DatasetDict({"test": ds})
     hf_name = f"{hf_name}_{removal}"
-    ds.push_to_hub(hf_name, private=True)
+    ds.push_to_hub(hf_name)
 
 
 if __name__ == "__main__":
