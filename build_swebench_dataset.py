@@ -35,7 +35,6 @@ def create_instance(
     if "pip_packages" in raw_info:
         setup["pip_packages"] = raw_info["pip_packages"]
     owner, repo = example["repo"].split("/")
-    'matplotlib/matplotlib', 'pylint-dev/pylint', 'sympy/sympy', 'mwaskom/seaborn', 'pallets/flask', 'astropy/astropy', 'psf/requests', 'pydata/xarray', 'pytest-dev/pytest', 'sphinx-doc/sphinx', 'django/django', 'scikit-learn/scikit-learn'
     if repo == "matplotlib":
         test_cmd = "pytest"
         test_dir = "lib/matplotlib/tests"
@@ -60,6 +59,9 @@ def create_instance(
         test_cmd = "pytest"
         test_dir = "astropy/tests/"
         src_dir = "astropy"
+        if not "pre_install" in setup:
+            setup["pre_install"] = []
+        setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "requests":
         test_cmd = "pytest"
         test_dir = "tests/"
@@ -85,6 +87,7 @@ def create_instance(
         test_dir = "sklearn/"
         src_dir = "sklearn/"
     return {
+        "instance_id": example["instance_id"],
         "repo": f"{organization}/{repo}",
         "original_repo": f"{owner}/{repo}",
         "base_commit": example["base_commit"],
