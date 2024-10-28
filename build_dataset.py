@@ -52,7 +52,7 @@ def create_instance(
     if "pip_packages" in raw_info:
         setup["pip_packages"] = raw_info["pip_packages"]
     return {
-        "instance_id": f"{original_owner}__{repo.name}",
+        "instance_id": f"{repo.owner}/{repo.name}",
         "repo": f"{repo.owner}/{repo.name}",
         "original_repo": f"{original_owner}/{repo.name}",
         "base_commit": base_commit,
