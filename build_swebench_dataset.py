@@ -8,7 +8,12 @@ from typing import Optional
 from datasets import Dataset, DatasetDict, load_dataset
 
 from swebench.harness.constants import (
-    MAP_REPO_VERSION_TO_SPECS
+    MAP_REPO_VERSION_TO_SPECS,
+    MAP_REPO_TO_REQS_PATHS,
+)
+
+from swebench.harness.utils import (
+    get_requirements_by_commit
 )
 
 from utils import Repo
@@ -31,7 +36,13 @@ def create_instance(
     if "pre_install" in raw_info:
         setup["pre_install"] = raw_info["pre_install"]
     if "packages" in raw_info:
-        setup["packages"] = raw_info["packages"]
+        if raw_info["packages"] == "requirements.txt":
+            packages = get_requirements_by_commit(example["repo"], example["environment_setup_commit"])
+            setup["packages"] = [one.split('#')[0].strip() for one in packages.split('\n') if one.strip() != '']
+        elif raw_info["packages"] == "environment.yml":
+            pass
+        else:
+            setup["packages"] = raw_info["packages"].split()
     if "pip_packages" in raw_info:
         setup["pip_packages"] = raw_info["pip_packages"]
     owner, repo = example["repo"].split("/")
@@ -39,6 +50,9 @@ def create_instance(
         test_cmd = "pytest"
         test_dir = "lib/matplotlib/tests"
         src_dir = "lib/matplotlib"
+        if not "pre_install" in setup:
+            setup["pre_install"] = []
+        setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "pylint":
         test_cmd = "pytest"
         test_dir = "tests/"
@@ -82,10 +96,18 @@ def create_instance(
         test_cmd = "PYTHONWARNINGS=always pytest --capture=no"
         test_dir = "tests/"
         src_dir = "django"
+        if not "pre_install" in setup:
+            setup["pre_install"] = []
+        setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "scikit-learn":
         test_cmd = "pytest"
         test_dir = "sklearn/"
         src_dir = "sklearn/"
+        if not "pre_install" in setup:
+            setup["pre_install"] = []
+        setup["pre_install"] += ["apt-get update", "apt-get install clang"]
+        setup["pip_packages"].append("cython==0.27.3")
+        setup["install"] = "python setup.py install"
     return {
         "instance_id": example["instance_id"],
         "repo": f"{organization}/{repo}",
@@ -122,12 +144,25 @@ def main(
         logger.info(f"Working on {example['repo']}")
         head = example["environment_setup_commit"]
         owner, repo = example["repo"].split("/")
+        #repo = Repo(owner, repo, organization=organization, head=head, token=token)
         # Create task instance
         instance = create_instance(example, organization)
         examples.append(instance)
-    ds = Dataset.from_list(examples)
+
+    from collections import defaultdict
+    grouped_dicts = defaultdict(list)
+    result = []
+    for d in examples:
+        repo = d.get("repo")
+        if len(grouped_dicts[repo]) < 10:
+            grouped_dicts[repo].append(d)
+
+    for group in grouped_dicts.values():
+        result.extend(group)
+    ds = Dataset.from_list(result)
+    #ds = Dataset.from_list(examples)
     ds = DatasetDict({"test": ds})
-    hf_name = f"wentingzhao/{dataset.split('/')[-1]}_commit0"
+    hf_name = f"wentingzhao/{dataset.split('/')[-1]}"
     ds.push_to_hub(hf_name)
 
 
