@@ -13,7 +13,11 @@ from swebench.harness.constants import (
 )
 
 from swebench.harness.utils import (
-    get_requirements_by_commit
+    get_requirements_by_commit,
+)
+
+from swebench.harness.test_spec import (
+    replace_uninstallable_packages_requirements_txt,
 )
 
 from utils import Repo
@@ -35,10 +39,19 @@ def create_instance(
     setup["specification"] = ""
     if "pre_install" in raw_info:
         setup["pre_install"] = raw_info["pre_install"]
+        setup["pre_install"] = []
+        for one in raw_info["pre_install"]:
+            if 'apt' in one:
+                setup["pre_install"].append(one)
+            else:
+                setup["install"] = f"{one}; {setup['install']}"
     if "packages" in raw_info:
         if raw_info["packages"] == "requirements.txt":
-            packages = get_requirements_by_commit(example["repo"], example["environment_setup_commit"])
+            packages = replace_uninstallable_packages_requirements_txt(
+                get_requirements_by_commit(example["repo"], example["environment_setup_commit"])
+                )
             setup["packages"] = [one.split('#')[0].strip() for one in packages.split('\n') if one.strip() != '']
+            setup["packages"] = [one for one in setup["packages"] if 'win32' not in one]
         elif raw_info["packages"] == "environment.yml":
             pass
         else:
@@ -148,19 +161,7 @@ def main(
         # Create task instance
         instance = create_instance(example, organization)
         examples.append(instance)
-
-    from collections import defaultdict
-    grouped_dicts = defaultdict(list)
-    result = []
-    for d in examples:
-        repo = d.get("repo")
-        if len(grouped_dicts[repo]) < 10:
-            grouped_dicts[repo].append(d)
-
-    for group in grouped_dicts.values():
-        result.extend(group)
-    ds = Dataset.from_list(result)
-    #ds = Dataset.from_list(examples)
+    ds = Dataset.from_list(examples)
     ds = DatasetDict({"test": ds})
     hf_name = f"wentingzhao/{dataset.split('/')[-1]}"
     ds.push_to_hub(hf_name)
