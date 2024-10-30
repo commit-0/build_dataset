@@ -128,3 +128,6 @@ lint.unfixable = []
 
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/**/*.py" = ["D"]
+
+[tool.uv.sources]
+swebench = { git = "https://github.com/wenting-zhao/SWE-bench.git" }

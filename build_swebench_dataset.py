@@ -50,12 +50,13 @@ def create_instance(
             packages = replace_uninstallable_packages_requirements_txt(
                 get_requirements_by_commit(example["repo"], example["environment_setup_commit"])
                 )
-            setup["packages"] = [one.split('#')[0].strip() for one in packages.split('\n') if one.strip() != '']
-            setup["packages"] = [one for one in setup["packages"] if 'win32' not in one]
+            setup["packages"] = [one.split('#')[0].strip().split(';')[0].strip() for one in packages.split('\n') if one.strip() != '']
+            setup["packages"] = [f"\"{one}\"" for one in setup["packages"] if 'win32' not in one]
+            setup["packages"] = ' '.join(setup["packages"])
         elif raw_info["packages"] == "environment.yml":
             pass
         else:
-            setup["packages"] = raw_info["packages"].split()
+            setup["packages"] = raw_info["packages"]
     if "pip_packages" in raw_info:
         setup["pip_packages"] = raw_info["pip_packages"]
     owner, repo = example["repo"].split("/")
@@ -119,7 +120,6 @@ def create_instance(
         if not "pre_install" in setup:
             setup["pre_install"] = []
         setup["pre_install"] += ["apt-get update", "apt-get install clang"]
-        setup["pip_packages"].append("cython==0.27.3")
         setup["install"] = "python setup.py install"
     return {
         "instance_id": example["instance_id"],
