@@ -85,7 +85,7 @@ def create_instance(
         src_dir = "src/flask/"
     elif repo == "astropy":
         test_cmd = "pytest"
-        test_dir = "astropy/tests/"
+        test_dir = "astropy/"
         src_dir = "astropy"
         if not "pre_install" in setup:
             setup["pre_install"] = []
@@ -128,7 +128,7 @@ def create_instance(
         "base_commit": example["base_commit"],
         "reference_commit": example["environment_setup_commit"],
         "setup": setup,
-        "test": {"test_cmd": test_cmd, "test_dir": test_dir},
+        "test": {"test_cmd": test_cmd, "test_dir": test_dir, "PASS_TO_PASS": example["PASS_TO_PASS"], "FAIL_TO_PASS": example["FAIL_TO_PASS"], "patch": example["patch"], "test_patch": example["test_patch"]},
         "src_dir": src_dir,
     }
 
