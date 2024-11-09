@@ -61,60 +61,60 @@ def create_instance(
         setup["pip_packages"] = raw_info["pip_packages"]
     owner, repo = example["repo"].split("/")
     if repo == "matplotlib":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "lib/matplotlib/tests"
         src_dir = "lib/matplotlib"
         if not "pre_install" in setup:
             setup["pre_install"] = []
         setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "pylint":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "pylint/"
     elif repo == "sympy":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "sympy/"
         src_dir = "sympy/"
     elif repo == "seaborn":
-        test_cmd = "pytest -n auto"
+        test_cmd = "pytest -n auto --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "seaborn/"
     elif repo == "flask":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "src/flask/"
     elif repo == "astropy":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "astropy/"
         src_dir = "astropy"
         if not "pre_install" in setup:
             setup["pre_install"] = []
         setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "requests":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "src/requests/"
     elif repo == "xarray":
-        test_cmd = "pytest -n auto"
+        test_cmd = "pytest -n auto --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "xarray/"
     elif repo == "pytest":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "testing/"
         src_dir = "src/"
     elif repo == "sphinx":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "sphinx/"
     elif repo == "django":
-        test_cmd = "PYTHONWARNINGS=always pytest --capture=no"
+        test_cmd = "PYTHONWARNINGS=always pytest --capture=no --continue-on-collection-errors"
         test_dir = "tests/"
         src_dir = "django"
         if not "pre_install" in setup:
             setup["pre_install"] = []
         setup["pre_install"] += ["apt-get update", "apt-get install clang"]
     elif repo == "scikit-learn":
-        test_cmd = "pytest"
+        test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "sklearn/"
         src_dir = "sklearn/"
         if not "pre_install" in setup:
@@ -128,7 +128,7 @@ def create_instance(
         "base_commit": example["base_commit"],
         "reference_commit": example["environment_setup_commit"],
         "setup": setup,
-        "test": {"test_cmd": test_cmd, "test_dir": test_dir, "PASS_TO_PASS": example["PASS_TO_PASS"], "FAIL_TO_PASS": example["FAIL_TO_PASS"], "patch": example["patch"], "test_patch": example["test_patch"]},
+        "test": {"test_cmd": test_cmd, "test_dir": "", "PASS_TO_PASS": example["PASS_TO_PASS"], "FAIL_TO_PASS": example["FAIL_TO_PASS"], "patch": example["patch"], "test_patch": example["test_patch"]},
         "src_dir": src_dir,
     }
 
