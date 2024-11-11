@@ -90,6 +90,8 @@ def create_instance(
         if not "pre_install" in setup:
             setup["pre_install"] = []
         setup["pre_install"] += ["apt-get update", "apt-get install clang"]
+        if example["environment_setup_commit"] == "2e89d074b3b2abc2da80e437c93b1d5516a0ca57":
+            setup["install"] = "pip install setuptools pip; python setup.py install"
     elif repo == "requests":
         test_cmd = "pytest --continue-on-collection-errors"
         test_dir = "tests/"
