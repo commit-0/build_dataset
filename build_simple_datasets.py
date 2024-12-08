@@ -52,6 +52,7 @@ def convert_mbpp():
     for split in ds:
         ds[split] = ds[split].rename_column('task_id', 'instance_id')
         ds[split] = ds[split].rename_column('code', 'canonical_solution')
+        ds[split] = ds[split].rename_column('text', 'prompt')
         ds[split] = ds[split].add_column(name='test', column=[convert_mbpp_tests(one) for one in ds[split]['test_list']])
         ds[split] = clean_columns(ds[split])
     out_name = f"commit0/mbpp"
